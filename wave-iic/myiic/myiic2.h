@@ -16,10 +16,14 @@
 //IO方向设置
 #define SDA_IN_2()  {GPIOB->MODER&=~(3<<(7*2));GPIOB->MODER|=0<<7*2;}	//PH7输入模式
 #define SDA_OUT_2() {GPIOB->MODER&=~(3<<(7*2));GPIOB->MODER|=1<<7*2;} //PH7输出模式  
+
+#define SCL_IN_2()  {GPIOB->MODER&=~(3<<(6*2));GPIOB->MODER|=0<<6*2;}	//PH7输入模式
+#define SCL_OUT_2() {GPIOB->MODER&=~(3<<(6*2));GPIOB->MODER|=1<<6*2;} //PH7输出模式  
 //IO操作
 #define IIC_SCL_2   PHout(6) //SCL
 #define IIC_SDA_2   PHout(7) //SDA
 #define READ_SDA_2  PHin(7)  //输入SDA
+#define READ_SCL_2  PHin(6)
 
 //IIC所有操作函数
 void IIC_Init_2(void);                //初始化IIC的IO口				 

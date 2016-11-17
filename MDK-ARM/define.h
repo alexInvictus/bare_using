@@ -82,7 +82,7 @@ void MX_ADC1_Init(void);
 void MX_NVIC_Init(void);
 void MX_DMA_Init(void);
 void Uart_test(void);                           //串口测试程序
-void Uart_Store(void);                           //串口转存
+int Uart_Store(void);                           //串口转存
 void Uart_Analyse(void);                        //分析轨道 分数组存到相应的二维数组
 void Eeprom_Read(void);                         //读取eeprom里面的车号
 void Send_Id(void);                             //发送id号给中控系统
@@ -101,12 +101,15 @@ void Set_Motor(int left,int right);             //设置电机的速度
 void free_array(void);                          //释放数组内存的函数
 void Set_Acc(int target);                       //加速设置函数 target为目标速度
 void Set_Slowdown(int target);                  //减速设置函数 target为目标速度
+void ahead_wave(void);
+void back_wave(void);
 /*显示屏的操作的函数*/
 void LCD_init(void);
 void Display(u8 addr,u8 *hz);
 void LCD_Write(u32 cmd,u8 ddata);
 void Voltage_Test(void); 
 uint16_t ADC_Average(uint16_t *buff,uint16_t num,uint16_t threshold);    //ADC采集滤波函数
+
 #endif
 
 

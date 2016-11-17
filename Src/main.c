@@ -76,8 +76,8 @@ int main(void)
 	{
 		case Read_State:                                     //读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)
 			           
-                printf("1");
-                delay_ms(1000);		
+               Eeprom_Read();
+               Send_Id();		
 		           if(packflag_3==1)
 							 {	                                   								  
 								if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
@@ -113,8 +113,10 @@ int main(void)
 	  
 		case Store_State:                                                        //等待地图信息并分析的状态 换存地图。
 			   
-		      Uart_Store();                                                      //保存地图信息到Rx_buff_11
-		     		      
+		            if(Uart_Store()==1)
+								{
+		            Command_State=Analyse_State;
+								}									
 		           break;
 		
     case Analyse_State:
@@ -134,6 +136,10 @@ int main(void)
          if((Rx_buff_33[4]=='w')&&(Rx_buff_33[5]=='t'))
 					{
 						 Command_State=Run_Wt_State;                                     //直接判断是否去取料点。收到去取料点地图去取料点
+					}
+				 else if((Rx_buff_33[4]=='r')&&(Rx_buff_33[5]=='k'))
+					{
+						 Command_State=Run_Ruku_State;                                     //是否是入库点，是的话直接入库
 					}
 					     break;
    				

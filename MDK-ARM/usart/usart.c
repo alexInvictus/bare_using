@@ -179,9 +179,9 @@ void Uart_test(void)            //串口1测试子函数
     }
 }
 
-void Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
+int Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
 {
-	static u16 i=0;                       //静态变量。。。可能有问题。。。。
+ int i=0;                       
  if(packflag_3==1)
  {
   len=USART_RX_STA_3&0x3fff;
@@ -192,15 +192,15 @@ void Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
 	 packflag_3=0;
 	 USART_RX_STA_3=0;
 	 n=(Rx_buff_33[6]-'0')*10+(Rx_buff_33[7]-'0');
-	 printf("%d",n);
-	 Command_State=Analyse_State;
+	 return 1;
  }
+ return 0;
 }	
 
 void Uart_Analyse(void)
 {
-	 static int i=0;
-	 static int j=0;
+	 int i=0;
+	 int j=0;
 	 Track_buff=(int **)malloc(n*sizeof(int*));
 	 for(i=0;i<n;i++)
 	 {
@@ -224,4 +224,6 @@ void free_array(void)
 		} 
 		free(Track_buff);      //释放一维数组
 }
+
+
 #endif

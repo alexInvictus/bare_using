@@ -45,4 +45,44 @@ u16 Wave_test(void)
 
 }
 
+
+u16 Get_Range(void)
+{		
+		if(only_one==0)
+		{
+			KS103_WriteOneByte(0xe8,0x02,0xb4);	//发送探测命令
+			HAL_Delay(1);
+			only_one=1;
+			SCL_IN_2();
+		}
+		else
+		{			
+			if(READ_SCL_2)													
+			{	
+				SCL_OUT_2();
+				range=KS103_ReadOneByte(0xe8,0x02);
+				range<<=8;
+				range+=KS103_ReadOneByte(0xe8,0x03); 
+				only_one=0;
+			}			
+		}
+		return range;  
+}
+
+int Get_Barrier(void)
+{
+	u16 temp_range=Get_Range();
+	if(temp_range<300)						// 如果很近检测到障碍物返回2
+	{
+		return 2;
+	}
+	else if(temp_range<1500)			// 如果较远检测到障碍物返回1
+	{
+		return 1;
+	}
+	else												//  大于1500返回0
+	{
+		return 0;
+	}
+}
 #endif
