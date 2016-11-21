@@ -3,6 +3,7 @@
 "usart\delay.o"
 "usart\sys.o"
 "usart\usart.o"
+"usart\timer3.o"
 "usart\ks103.o"
 "usart\myiic2.o"
 "usart\uart_init.o"

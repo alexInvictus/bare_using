@@ -4,7 +4,7 @@
 #define uint  unsigned int
 #ifdef _C_MAIN_
 u16 USART_RX_STA_1=0;                 //接收标志位
-u16 USART_RX_STA_33=0;                //缓存地图数组
+u8 Rx_buff_22[USART_REC_LEN_2];       //缓存RFID的数组
 u8 Rx_buff_1[USART_REC_LEN_1];        //暂存数组
 u8 Rx_buff_33[USART_REC_LEN_3];       //存储地图的数组，只有在到达终点才清零
 int **Track_buff;
@@ -29,6 +29,7 @@ DMA_HandleTypeDef hdma_adc1;
 /*全局变量的声明*/
 u8 len;                               //反馈数组的长度
 u16 times=0;                          //统计时间
+u16 tim3_flag=0;                     //定时器时间
 int wave_watch=1;
 u16 flag_usart_1=0;                   //收到包头标志位
 u16 packflag_1=0;                     //收到包尾标志位.
@@ -82,6 +83,7 @@ enum
 {
  Left_90,                            //检测到左转RFID
  Right_90,                           //检测到右转RFID
+ Right_180,                          //入库点转180度变为前向循迹
  Run,                                //直走的RFID
  Setup,
  Arrive,
@@ -89,8 +91,8 @@ enum
 }Motor_Status=Setup;
 #else
 extern u16 USART_RX_STA_1;           //接收标志位串口1 
-extern u16 USART_RX_STA_22;
 extern u8 Rx_buff_1[USART_REC_LEN_1];
+extern u8 Rx_buff_22[USART_REC_LEN_2];
 extern u8 Rx_buff_33[USART_REC_LEN_3];
 extern int **Track_buff;
 extern u8 aRxBuffer_1[RXBUFFERSIZE]; //HAL库USART1接收Buffer
@@ -125,6 +127,7 @@ extern u16 flag_usart_3;             //收到包头标志位
 extern u16 packflag_3;               //收到包尾标志位.
 extern int tim13_val;
 extern int tim14_val;
+extern u16 tim3_flag; 
 extern uchar ptr[6];                 //显示用的数组
 extern uint Temp;                    //ADC检测后保存值
 extern vu32 ADC_ConvertedValue;      //ADC传输的值
@@ -166,6 +169,7 @@ extern enum
 {
  Left_90,
  Right_90,
+ Right_180,
  Run,
  Setup,
  Arrive,

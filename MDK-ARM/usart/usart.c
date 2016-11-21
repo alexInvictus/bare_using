@@ -181,21 +181,26 @@ void Uart_test(void)            //串口1测试子函数
 
 int Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
 {
- int i=0;                       
+ int k=0;                       
  if(packflag_3==1)
  {
+	 if((Rx_buff_3[1]=='W')&&(Rx_buff_3[2]=='A')&&(Rx_buff_3[3]=='Y'))           //检测到地图消息
+		 {
   len=USART_RX_STA_3&0x3fff;
-	for(i=0;i<=len;i++)
+	for(k=0;k<=len;k++)
 	 {
-	  Rx_buff_33[i]=Rx_buff_3[i];
+	  Rx_buff_33[k]=Rx_buff_3[k];
 	 }
 	 packflag_3=0;
 	 USART_RX_STA_3=0;
 	 n=(Rx_buff_33[6]-'0')*10+(Rx_buff_33[7]-'0');
+	 Uart_Analyse();
 	 return 1;
+     }
  }
  return 0;
 }	
+
 
 void Uart_Analyse(void)
 {
@@ -217,7 +222,7 @@ void Uart_Analyse(void)
 
 void free_array(void)
 {	
-	  static int i=0;
+	  int i=0;
 		for(i=0;i<n;i++) 
 		{ 
 		free(Track_buff[i]);   //释放二维数组

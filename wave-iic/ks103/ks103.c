@@ -25,7 +25,7 @@ void KS103_WriteOneByte(u8 address,u8 reg,u8 command)
 {
   IIC_Start_2();
 	IIC_Send_Byte_2(address);
-	IIC_Wait_Ack_2();
+	while(IIC_Wait_Ack_2());
 	IIC_Send_Byte_2(reg);               //∑¢ÀÕ∏ﬂµÿ÷∑
 	IIC_Wait_Ack_2();
 	IIC_Send_Byte_2(command);
@@ -33,39 +33,69 @@ void KS103_WriteOneByte(u8 address,u8 reg,u8 command)
 	IIC_Stop_2();              
 }
 
-u16 Wave_test(void)
-{
-	  static u16 range=0;
-		KS103_WriteOneByte(0xe8,0x02,0xb0);
-		delay_ms(80);
-		range=KS103_ReadOneByte(0xe8,0x02);
-		range<<=8; 
-		range+=KS103_ReadOneByte(0xe8,0x03);
-		return range;
+//u16 Wave_test(void)
+//{
+//	  static u16 range=0;
+//		KS103_WriteOneByte(0xe8,0x02,0xb0);
+//		delay_ms(80);
+//		range=KS103_ReadOneByte(0xe8,0x02);
+//		range<<=8; 
+//		range+=KS103_ReadOneByte(0xe8,0x03);
+//		return range;
 
-}
+//}
 
+//u16 Get_Range(void)
+//{		
+//		if(only_one==0)
+//		{
+//			KS103_WriteOneByte(0xe8,0x02,0xb4);	//∑¢ÀÕÃΩ≤‚√¸¡Ó
+//			only_one=1;
+//			SCL_IN_2();
+//		}
+//		else
+//		{			
+//			if(READ_SCL_2)													
+//			{	
+//				SCL_OUT_2();
+//				
+//				range=KS103_ReadOneByte(0xe8,0x02);
+//				range<<=8;
+//				range+=KS103_ReadOneByte(0xe8,0x03); 
+//			}			
+//		}
+//		return range;  
+//}
 
 u16 Get_Range(void)
-{		
+{	
+  	
 		if(only_one==0)
 		{
 			KS103_WriteOneByte(0xe8,0x02,0xb4);	//∑¢ÀÕÃΩ≤‚√¸¡Ó
-			HAL_Delay(1);
+			delay_ms(1);
 			only_one=1;
 			SCL_IN_2();
+			tim3_flag=0;
 		}
 		else
 		{			
-			if(READ_SCL_2)													
-			{	
-				SCL_OUT_2();
-				range=KS103_ReadOneByte(0xe8,0x02);
-				range<<=8;
-				range+=KS103_ReadOneByte(0xe8,0x03); 
-				only_one=0;
-			}			
-		}
+			if(tim3_flag<80)
+				{
+					if(READ_SCL_2)													
+					{	
+						SCL_OUT_2();
+						
+						range=KS103_ReadOneByte(0xe8,0x02);
+						range<<=8;
+						range+=KS103_ReadOneByte(0xe8,0x03); 
+						only_one=0;
+					}			
+		    }
+			else{
+			   only_one=0;
+			}
+	   }
 		return range;  
 }
 

@@ -7,18 +7,21 @@ void Motor_Ahead_Wait(void)
   switch(Motor_Status)
 	{
 	  case Setup:
-		   	HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);      //暂定前进
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);  
-		    Set_Acc(200);
-		    Motor_Status=Run;
+		   	 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);      //暂定前进
+         HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);  
+		     Set_Acc(200);
+		     printf("b");
+		     Motor_Status=Run;
 		    break;
 		case Motor_Acc:
 			   
-			  Set_Acc(200);                      //暂定加速到200
+				 Set_Acc(200);                      //暂定加速到200
+				 Motor_Status=Run;
+		
 		    break;
 		case Run:
+         ahead_wave();
          Find_Rfid();
-		     ahead_wave();
 		    break;
 				
 		case Arrive:
@@ -43,32 +46,33 @@ void Motor_Ahead(void)                                    //向前循迹
   switch(Motor_Status)
 	{
 	  case Setup:
-			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);      //暂定前进
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
-		    Set_Acc(200);
-		    Motor_Status=Run;
+			       HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);      //暂定前进
+             HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);
+		         Set_Acc(200);
+		         Motor_Status=Run;
 		    break;
 		
 		case Motor_Acc:
 			   
-			  Set_Acc(200);                      //暂定加速到200
+			       Set_Acc(200);                      //暂定加速到200
+		         Motor_Status=Run;
 		    break;
 		case Run:
-			       	Find_Rfid();
-		          ahead_wave();	 
+			       ahead_wave();	
+		         Find_Rfid();	 
 		    break;
 		
 		case Left_90:
 			       Set_Motor(0,150);
 		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
+		         Set_Motor(460,460);
 		         Motor_Status=Setup;
 		    break;
 	  
 		case Right_90:
 			       Set_Motor(150,0);
 		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
+		         Set_Motor(460,460);
 		         Motor_Status=Setup;		
 		    break;
 		case Arrive:
@@ -92,15 +96,16 @@ void Motor_Back(void)                                           //返回的循迹函数
   switch(Motor_Status)
 	{
 	  case Setup:
-			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);    //暂定反向
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
-		    Set_Acc(200);
-		    Motor_Status=Run;
+			        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);    //暂定反向
+              HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
+		          Set_Acc(200);
+		          Motor_Status=Run;
 		    break;
 		
 		case Motor_Acc:
 			   
-			  Set_Acc(200);                      //暂定加速到200
+			        Set_Acc(200);                      //暂定加速到200
+		          Motor_Status=Run;
 		    break;
 		
 		case Run:
@@ -109,47 +114,48 @@ void Motor_Back(void)                                           //返回的循迹函数
 		    break;
 		
 		case Left_90:
-			       Set_Motor(0,150);
-		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
-		         Motor_Status=Setup;	
+			        Set_Motor(0,150);
+		          delay_ms(Turn_time);
+		          Set_Motor(460,460);
+		          Motor_Status=Setup;	
 		    break;
 	  
 		case Right_90:
-			       Set_Motor(150,0);
-		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
-		         Motor_Status=Setup;			
+			        Set_Motor(150,0);
+		          delay_ms(Turn_time);
+		          Set_Motor(460,460);
+		          Motor_Status=Setup;			
 		    break;
 		case Arrive:
-						 Set_Motor(200,200);
-		         Set_Slowdown(200);
-						 Voltage_Test();
-		         free_array();
-		         HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
-					   HAL_UART_Transmit(&huart3,(u8*)Rm,3,1000);          //发送请求入库地图的指令
-						 Command_State=Store_State;
-						 Motor_Status=Setup;
+						  Set_Motor(200,200);
+		          Set_Slowdown(200);
+						  Voltage_Test();
+		          free_array();
+		          HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
+					    HAL_UART_Transmit(&huart3,(u8*)Rm,3,1000);          //发送请求入库地图的指令
+						  Command_State=Store_State;
+						  Motor_Status=Setup;
 		    break;			
 		default:
         break;			
 	}
 }
 
-void Motor_Ruku(void)                                     //入库的循迹函数
+void Motor_Ruku(void)                                           //入库的循迹函数
 {
   switch(Motor_Status)
 	{
 	  case Setup:
-			  HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);     //暂定前进
-        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
-        Set_Acc(200);		
-		    Motor_Status=Run;
+			        HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_SET);     //暂定前进
+              HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_SET);
+              Set_Acc(200);		
+		          Motor_Status=Run;
 		    break;
 		
 		case Motor_Acc:
 			   
-			  Set_Acc(200);                      //暂定加速到200
+			        Set_Acc(200);                                           //暂定加速到200
+		          Motor_Status=Run;
 		    break;
 		
 		case Run:
@@ -158,27 +164,35 @@ void Motor_Ruku(void)                                     //入库的循迹函数
 		    break;
 		
 		case Left_90:
-			       Set_Motor(0,150);
-		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
-		         Motor_Status=Setup;				
+			        Set_Motor(0,150);
+		          delay_ms(Turn_time);
+		          Set_Motor(0,0);
+		          Motor_Status=Setup;				
 		    break;
 	  
 		case Right_90:
-			       Set_Motor(150,0);
-		         delay_ms(Turn_time);
-		         Set_Motor(0,0);
-		         Motor_Status=Setup;			
+			        Set_Motor(150,0);
+		          delay_ms(Turn_time);
+		          Set_Motor(0,0);
+		          Motor_Status=Setup;			
+		    break;
+		
+		case Right_180:
+			        Set_Motor(150,0);
+		          delay_ms(Turn_time);
+		          Set_Motor(0,0);
+		          Command_State=Run_Ahead_State;
+		          Motor_Status=Setup;		
 		    break;
 		case Arrive:
-						 Set_Motor(200,200);
-		         Set_Slowdown(200);
-						 Voltage_Test();
-		         free_array();
-		         HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
-				     HAL_UART_Transmit(&huart3,(u8*)Wt,3,1000);          //发送请求返回地图的指令
-						 Command_State=Store_State;         //达到起始点，进入缓存地图的状态。
-						 Motor_Status=Setup;
+						  Set_Motor(200,200);
+		          Set_Slowdown(200);                           //从200开始减速
+						  Voltage_Test();
+		          free_array();
+		          HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
+				      HAL_UART_Transmit(&huart3,(u8*)Wt,3,1000);          //发送请求返回地图的指令
+						  Command_State=Store_State;         //达到起始点，进入缓存地图的状态。
+						  Motor_Status=Setup;
 		    break;
 		default:
         break;			
@@ -280,7 +294,7 @@ void Back_Trailing(void)
 				  }
 				}
 			}
-			}
+		}
 		
 		}
 	  if((Back_Senor_1==1)&&(Back_Senor_2==1)&&(Back_Senor_3==0)&&(Back_Senor_4==1)&&(Back_Senor_5==1))
@@ -307,10 +321,20 @@ void Back_Trailing(void)
 
 }
 void Answer(void)                                  //回复给上位机RFID信息
-{                                                                                                                                                                                                                                                                                                                                            						
-		HAL_UART_Transmit(&huart3,(u8*)Loc,4,1000);   //上报位置
-		HAL_UART_Transmit(&huart3,&Rx_buff_2[4],4,1000);
-	  HAL_UART_Transmit(&huart3,(u8*)GG,1,1000);
+{      
+	int i=0;
+	if((Rx_buff_22[4]!=Rx_buff_2[4])&&(Rx_buff_22[5]!=Rx_buff_2[5])&&(Rx_buff_22[6]!=Rx_buff_2[6])&&(Rx_buff_22[7]!=Rx_buff_2[7]))
+		{
+			for(i=0;i<=len;i++)
+		 {
+			Rx_buff_22[i]=Rx_buff_2[i];
+		 }
+			USART_RX_STA_2=0;	
+			HAL_UART_Transmit(&huart3,(u8*)Loc,4,1000);   //上报位置
+			HAL_UART_Transmit(&huart3,&Rx_buff_22[4],4,1000);
+			HAL_UART_Transmit(&huart3,(u8*)GG,1,1000);
+			Find_Rfid_Match();
+    }	
 }
                                                                                                                                                                
 void Find_Rfid(void)
@@ -336,7 +360,6 @@ void Find_Rfid(void)
 						{
 							//HAL_UART_Transmit(&huart1,&Rx_buff_2[4],4,1000);					
 							Answer();
-							Find_Rfid_Match();
 							data_rec_flag=1;
 						}
 						else if((Rx_buff_2[1]==0x03)&&(Rx_buff_2[2]==0x20)&&(Rx_buff_2[3]==0x80))		//读失败
@@ -360,13 +383,13 @@ void Find_Rfid_Match(void)
 	  if((Track_buff[i][0]==Rx_buff_2[4])&&(Track_buff[i][1]==Rx_buff_2[5])&&(Track_buff[i][2]==Rx_buff_2[6])&&(Track_buff[i][3]==Rx_buff_2[7]))
 		{
 			if((Track_buff[i][4]=='p')&&(Track_buff[i][5]=='l'))
-			{
-			   Command_State=Stop_State;//Stop，下次启动直接向左转弯
+			{				 
+			   Command_State=Stop_State;     //Stop，下次启动直接向左转弯
 				 Motor_Status=Left_90;
 			}
 			else if((Track_buff[i][4]=='p')&&(Track_buff[i][5]=='r'))
 			{
-			  Command_State=Stop_State;//Stop，下次启动直接向右转弯
+			  Command_State=Stop_State;      //Stop，下次启动直接向右转弯
 				Motor_Status=Right_90;
 			}
 			else if((Track_buff[i][4]=='p')&&(Track_buff[i][5]=='f'))
@@ -376,6 +399,11 @@ void Find_Rfid_Match(void)
 			else if((Track_buff[i][4]=='p')&&(Track_buff[i][5]=='s'))
 			{
 				Motor_Status=Arrive;           //达到地图终点
+			}
+			else if((Track_buff[i][4]=='p')&&(Track_buff[i][5]=='p'))
+			{
+				Command_State=Stop_State;     
+				Motor_Status=Right_90;         //转向180并且切换状态
 			}
 			else if((Track_buff[i][4]=='n')&&(Track_buff[i][5]=='l'))
 			{
@@ -412,7 +440,7 @@ void Set_Acc(int target)               //从0加速到目标速度
 	{
 		__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,i); 
     __HAL_TIM_SET_COMPARE(&htim13,TIM_CHANNEL_1,i);		
-		HAL_Delay(8);
+		delay_us(100);
 	}
 }
 
@@ -423,81 +451,92 @@ void Set_Slowdown(int target)          //从目标速度减速到0
 	{
 		__HAL_TIM_SET_COMPARE(&htim14,TIM_CHANNEL_1,i);
     __HAL_TIM_SET_COMPARE(&htim13,TIM_CHANNEL_1,i);		
-		HAL_Delay(8);
+		delay_us(100);
 	}
 }
 
 void ahead_wave(void)
 {
-        if(wave_watch==1){
-              if(Get_Barrier()==1)
+	int wave=0;
+	    wave=Get_Barrier();
+        if(wave_watch==1)
+					{					  
+              if(wave==1)
 							{
 							  LED_ON;
 								Ahead_Trailing();
+//								printf("1\n");
 							}
-              else if(Get_Barrier()==0){							
-			        Ahead_Trailing();
+              else if(wave==0)
+							{							
+			          Ahead_Trailing();
+//								printf("0\n");
 							}
-              else if(Get_Barrier()==2)
+              else if(wave==2)
               {
-							Set_Motor(460,460);
-							LED_ON;
-							wave_watch=0;
+								wave_watch=0;
+//								printf("2\n");
 							}
-						}
-        else{
-				if(Get_Barrier()==1)
-							{
+					}
+       else{
+				      if(wave==1)
+							 {
 							  LED_ON;
-								Motor_Status=Motor_Acc;
+//								Motor_Status=Motor_Acc;
 								wave_watch=1;
-							}
-              else if(Get_Barrier()==0){							
-			         Motor_Status=Motor_Acc;
+//								printf("3\n");
+							 }
+              else if(wave==0)
+								{							
+//			         Motor_Status=Motor_Acc;
 								wave_watch=1;
-							}
-              else if(Get_Barrier()==2)
-              {
-							Set_Motor(460,460);
-							LED_ON;
+//								printf("4\n");
+							  }
+              else if(wave==2)
+               {
+							  Set_Motor(460,460);
+							  LED_ON;
 							  wave_watch=0;
-							}
+//								printf("5\n");
+							 }
 				}			 
 }
 
 void back_wave(void)
 {
- if(wave_watch==1){
-              if(Get_Barrier()==1)
+	int wave=0;
+	    wave=Get_Barrier();
+        if(wave_watch==1){
+              if(wave==1)
 							{
 							  LED_ON;
 								Back_Trailing();
 							}
-              else if(Get_Barrier()==0){							
+              else if(wave==0)
+							{							
 			          Back_Trailing();
 							}
-              else if(Get_Barrier()==2)
+              else if(wave==2)   //第2次检测到才停
               {
-							Set_Motor(460,460);
 							LED_ON;
 							wave_watch=0;
 							}
 						}
-        else{
-				if(Get_Barrier()==1)
+       else{
+				      if(wave==1)
 							{
 							  LED_ON;
 								Motor_Status=Motor_Acc;
 								wave_watch=1;
 							}
-              else if(Get_Barrier()==0){							
+              else if(wave==0){							
 			         Motor_Status=Motor_Acc;
 								wave_watch=1;
 							}
-              else if(Get_Barrier()==2)
+              else if(wave==2)
               {
-							Set_Motor(460,460);
-							LED_ON;
+							  Set_Motor(460,460);
+							  LED_ON;
 							  wave_watch=0;
 							}
 				}	

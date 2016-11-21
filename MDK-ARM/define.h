@@ -107,6 +107,7 @@ void back_wave(void);
 void LCD_init(void);
 void Display(u8 addr,u8 *hz);
 void LCD_Write(u32 cmd,u8 ddata);
+void Show_Static(void);
 void Voltage_Test(void); 
 uint16_t ADC_Average(uint16_t *buff,uint16_t num,uint16_t threshold);    //ADC²É¼¯ÂË²¨º¯Êý
 

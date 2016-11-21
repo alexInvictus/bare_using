@@ -68,16 +68,16 @@ int main(void)
 	IIC_Init();                                            //模拟iic for 24c02初始化
   /* Initialize interrupts */
   MX_NVIC_Init();                                        //中断优先级的设置
-
-  /* USER CODE BEGIN WHILE */
+	Show_Static();
+	Voltage_Test();
+//	delay_ms(1000);                                         //等待系统稳定
   while (1)
   {
   switch(Command_State)
 	{
-		case Read_State:                                     //读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)
-			           
+		case Read_State:                                     //读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)			           
                Eeprom_Read();
-               Send_Id();		
+               Send_Id();
 		           if(packflag_3==1)
 							 {	                                   								  
 								if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
@@ -86,8 +86,7 @@ int main(void)
 								}
 								packflag_3=0;
 								USART_RX_STA_3=0;
-							 }
-		            		
+							 }	
 							 break;
 	 
 		case Wait_State:                                     //等待命令状态  (所有暂停点的判断case)
@@ -99,7 +98,7 @@ int main(void)
 					 }
 					 else if((Rx_buff_3[4]=='b')&&(Rx_buff_3[5]=='k'))
 					 {
-						 Command_State=Run_Back_State;               //起始位置收到rk前进模式
+						 Command_State=Run_Back_State;               //起始位置收到bk返回模式
 					 }
 					  else if((Rx_buff_3[4]=='r')&&(Rx_buff_3[5]=='k'))
 					 {
@@ -119,8 +118,7 @@ int main(void)
 								}									
 		           break;
 		
-    case Analyse_State:
-		       Uart_Analyse();     						                                   //分析地图用二维动态数组去存储地图的值					 
+    case Analyse_State:		 
 			    if(Key_Start==1)
 				{
 					HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        //完成分析后按下按钮，发送指令给中控表示启动任务
@@ -150,7 +148,7 @@ int main(void)
 		           break;
 		case Run_Wt_State:
 			   
-		      Motor_Ahead_Wait();
+		       Motor_Ahead_Wait();
 		
 		           break;
 		case Run_Back_State:                                                     //到达终点时，切换的向后循迹的状态
@@ -160,8 +158,9 @@ int main(void)
 		           break;
 		
 		case Stop_State:
-			            Stop();
-		              Command_State=Wait_State;
+			
+					 Stop();
+					 Command_State=Wait_State; 
 		           break;
 		
 		case Run_Ruku_State:
@@ -196,7 +195,6 @@ void assert_failed(uint8_t* file, uint32_t line)
   /* User can add his own implementation to report the file name and line number,
     ex: printf("Wrong parameters value: file %s on line %d\r\n", file, line) */
   /* USER CODE END 6 */
-
 }
 
 #endif

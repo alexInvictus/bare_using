@@ -26,7 +26,7 @@ void IIC_Init_2(void)
     GPIO_Initure.Mode=GPIO_MODE_OUTPUT_PP;  //推挽输出
     GPIO_Initure.Pull=GPIO_PULLUP;          //上拉
     GPIO_Initure.Speed=GPIO_SPEED_FAST;     //快速
-    HAL_GPIO_Init(GPIOH,&GPIO_Initure);
+    HAL_GPIO_Init(GPIOB,&GPIO_Initure);
     
     IIC_SDA_2=1;
     IIC_SCL_2=1;  
@@ -47,12 +47,12 @@ void IIC_Start_2(void)
 void IIC_Stop_2(void)
 {
 	SDA_OUT_2();                              //sda线输出
-	IIC_SCL_2=0;
+	IIC_SCL_2=1;
 	IIC_SDA_2=0;                              //STOP:when CLK is high DATA change form low to high
- 	delay_us(10);
-	IIC_SCL_2=1; 
+ 	delay_us(10); 
 	IIC_SDA_2=1;                              //发送I2C总线结束信号
-	delay_us(10);							   	
+	delay_us(10);
+  IIC_SCL_2=0;	
 }
 //等待应答信号到来
 //返回值：1，接收应答失败
@@ -115,7 +115,8 @@ void IIC_Send_Byte_2(u8 txd)
 		    delay_us(10); 
 		    IIC_SCL_2=0;	
 		    delay_us(10);
-    }	 
+    }
+    IIC_SDA_2=1;		
 } 	    
 //读1个字节，ack=1时，发送ACK，ack=0，发送nACK   
 u8 IIC_Read_Byte_2(unsigned char ack)

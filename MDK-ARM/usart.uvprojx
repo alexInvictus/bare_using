@@ -433,6 +433,11 @@
               <FileType>1</FileType>
               <FilePath>.\usart\usart.c</FilePath>
             </File>
+            <File>
+              <FileName>timer3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\init\timer3.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

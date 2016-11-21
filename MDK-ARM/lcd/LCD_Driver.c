@@ -57,8 +57,7 @@ void Show_Static(void)
 {
   LCD_init();
 
-  delay_ms(1000);
-//  Delay_Ms(3000);
+  delay_ms(500);
   Display(Line1,"AGV");
   Display(Line2,"智能仓储");
   Display(Line3,"自动化工程部");
