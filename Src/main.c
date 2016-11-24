@@ -75,19 +75,13 @@ int main(void)
   {
   switch(Command_State)
 	{
-		case Read_State:                                     //读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)			           
-               Eeprom_Read();
-               Send_Id();
-		           if(packflag_3==1)
-							 {	                                   								  
-								if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
-								{
-									Command_State=Store_State;
-								}
-								packflag_3=0;
-								USART_RX_STA_3=0;
-							 }	
-							 break;
+		case Read_State: 			//读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)		
+                 Eeprom_Read();			
+		             Send_Id();
+                 Command_State=Wait_State;	
+//		               ahead_wave();
+//		               delay_ms(100);
+							 break;	
 	 
 		case Wait_State:                                     //等待命令状态  (所有暂停点的判断case)
 			    if(packflag_3==1)
@@ -104,6 +98,10 @@ int main(void)
 					 {
 						 Command_State=Run_Ruku_State;               //起始位置收到rk前进模式
 					 }
+            else if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
+					 {
+						 Command_State=Store_State;
+					 }					 
 					   packflag_3=0;
 					   USART_RX_STA_3=0;
 					}
@@ -111,11 +109,11 @@ int main(void)
 					     break;
 	  
 		case Store_State:                                                        //等待地图信息并分析的状态 换存地图。
-			   
-		            if(Uart_Store()==1)
+               if(Uart_Store()==1)
 								{
+								printf("a");
 		            Command_State=Analyse_State;
-								}									
+								}			
 		           break;
 		
     case Analyse_State:		 
@@ -198,7 +196,7 @@ void assert_failed(uint8_t* file, uint32_t line)
 }
 
 #endif
-
+ 
 /**
   * @}
   */ 

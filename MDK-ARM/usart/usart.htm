@@ -3,7 +3,7 @@
 <title>Static Call Graph - [usart\usart.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image usart\usart.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Mon Nov 21 10:21:28 2016
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5050106: Last Updated: Wed Nov 23 16:50:24 2016
 <BR><P>
 <H3>Maximum Stack Usage =        168 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -471,7 +471,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ahead_wave
 </UL>
 
-<P><STRONG><a name="[81]"></a>Answer</STRONG> (Thumb, 112 bytes, Stack size 16 bytes, motor.o(i.Answer))
+<P><STRONG><a name="[81]"></a>Answer</STRONG> (Thumb, 78 bytes, Stack size 16 bytes, motor.o(i.Answer))
 <BR><BR>[Stack]<UL><LI>Max Depth = 72<LI>Call Chain = Answer &rArr; HAL_UART_Transmit &rArr; UART_WaitOnFlagUntilTimeout
 </UL>
 <BR>[Calls]<UL><LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
@@ -982,7 +982,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[cb]"></a>HAL_UART_Init</STRONG> (Thumb, 98 bytes, Stack size 16 bytes, stm32f4xx_hal_uart.o(i.HAL_UART_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 96<LI>Call Chain = HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
+<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;UART_SetConfig
 <LI><a href="#[cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_MspInit
@@ -991,8 +991,8 @@ Global Symbols
 <LI><a href="#[e6]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;MX_USART2_UART_Init
 </UL>
 
-<P><STRONG><a name="[cc]"></a>HAL_UART_MspInit</STRONG> (Thumb, 146 bytes, Stack size 40 bytes, stm32f4xx_hal_msp.o(i.HAL_UART_MspInit))
-<BR><BR>[Stack]<UL><LI>Max Depth = 80<LI>Call Chain = HAL_UART_MspInit &rArr; HAL_GPIO_Init
+<P><STRONG><a name="[cc]"></a>HAL_UART_MspInit</STRONG> (Thumb, 146 bytes, Stack size 48 bytes, stm32f4xx_hal_msp.o(i.HAL_UART_MspInit))
+<BR><BR>[Stack]<UL><LI>Max Depth = 88<LI>Call Chain = HAL_UART_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[95]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_Init
 </UL>
@@ -1241,7 +1241,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[de]"></a>MX_GPIO_Init</STRONG> (Thumb, 470 bytes, Stack size 64 bytes, gpio_init.o(i.MX_GPIO_Init))
+<P><STRONG><a name="[de]"></a>MX_GPIO_Init</STRONG> (Thumb, 426 bytes, Stack size 64 bytes, gpio_init.o(i.MX_GPIO_Init))
 <BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = MX_GPIO_Init &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
@@ -1299,7 +1299,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e6]"></a>MX_USART2_UART_Init</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, uart_init.o(i.MX_USART2_UART_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = MX_USART2_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = MX_USART2_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
@@ -1309,7 +1309,7 @@ Global Symbols
 </UL>
 
 <P><STRONG><a name="[e8]"></a>MX_USART3_UART_Init</STRONG> (Thumb, 54 bytes, Stack size 8 bytes, uart_init.o(i.MX_USART3_UART_Init))
-<BR><BR>[Stack]<UL><LI>Max Depth = 104<LI>Call Chain = MX_USART3_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
+<BR><BR>[Stack]<UL><LI>Max Depth = 112<LI>Call Chain = MX_USART3_UART_Init &rArr; HAL_UART_Init &rArr; HAL_UART_MspInit &rArr; HAL_GPIO_Init
 </UL>
 <BR>[Calls]<UL><LI><a href="#[cb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Init
 <LI><a href="#[8a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Error_Handler
@@ -1342,12 +1342,13 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
-<P><STRONG><a name="[ef]"></a>Motor_Ahead_Wait</STRONG> (Thumb, 144 bytes, Stack size 16 bytes, motor.o(i.Motor_Ahead_Wait))
+<P><STRONG><a name="[ef]"></a>Motor_Ahead_Wait</STRONG> (Thumb, 150 bytes, Stack size 16 bytes, motor.o(i.Motor_Ahead_Wait))
 <BR><BR>[Stack]<UL><LI>Max Depth = 152<LI>Call Chain = Motor_Ahead_Wait &rArr; ahead_wave &rArr; Get_Barrier &rArr; Get_Range &rArr; KS103_ReadOneByte &rArr; IIC_Read_Byte_2 &rArr; IIC_NAck_2 &rArr; delay_us
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[82]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_UART_Transmit
 <LI><a href="#[ee]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;free_array
+<LI><a href="#[88]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;delay_ms
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Voltage_Test
 <LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ahead_wave
 <LI><a href="#[ec]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_Slowdown
@@ -1587,7 +1588,9 @@ Global Symbols
 <P><STRONG><a name="[10c]"></a>__1printf$bare</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare), UNUSED)
 
 <P><STRONG><a name="[f0]"></a>__2printf</STRONG> (Thumb, 0 bytes, Stack size 0 bytes, printfb.o(i.__0printf$bare))
-<BR><BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead_Wait
+<BR><BR>[Called By]<UL><LI><a href="#[eb]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;ahead_wave
+<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead_Wait
+<LI><a href="#[64]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
 </UL>
 
 <P><STRONG><a name="[10d]"></a>__scatterload_copy</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_copy), UNUSED)
@@ -1596,13 +1599,14 @@ Global Symbols
 
 <P><STRONG><a name="[10f]"></a>__scatterload_zeroinit</STRONG> (Thumb, 14 bytes, Stack size unknown bytes, handlers.o(i.__scatterload_zeroinit), UNUSED)
 
-<P><STRONG><a name="[eb]"></a>ahead_wave</STRONG> (Thumb, 106 bytes, Stack size 24 bytes, motor.o(i.ahead_wave))
+<P><STRONG><a name="[eb]"></a>ahead_wave</STRONG> (Thumb, 138 bytes, Stack size 24 bytes, motor.o(i.ahead_wave))
 <BR><BR>[Stack]<UL><LI>Max Depth = 136<LI>Call Chain = ahead_wave &rArr; Get_Barrier &rArr; Get_Range &rArr; KS103_ReadOneByte &rArr; IIC_Read_Byte_2 &rArr; IIC_NAck_2 &rArr; delay_us
 </UL>
 <BR>[Calls]<UL><LI><a href="#[80]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_GPIO_WritePin
 <LI><a href="#[8c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Get_Barrier
 <LI><a href="#[7f]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Set_Motor
 <LI><a href="#[7d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Ahead_Trailing
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Called By]<UL><LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead_Wait
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead
@@ -1641,6 +1645,7 @@ Global Symbols
 <LI><a href="#[ed]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Voltage_Test
 <LI><a href="#[f3]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ruku
 <LI><a href="#[f1]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Back
+<LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead_Wait
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead
 </UL>
 
@@ -1692,7 +1697,7 @@ Global Symbols
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead
 </UL>
 
-<P><STRONG><a name="[64]"></a>main</STRONG> (Thumb, 270 bytes, Stack size 0 bytes, main.o(i.main))
+<P><STRONG><a name="[64]"></a>main</STRONG> (Thumb, 268 bytes, Stack size 0 bytes, main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 168<LI>Call Chain = main &rArr; Motor_Ruku &rArr; back_wave &rArr; Get_Barrier &rArr; Get_Range &rArr; KS103_ReadOneByte &rArr; IIC_Read_Byte_2 &rArr; IIC_NAck_2 &rArr; delay_us
 </UL>
 <BR>[Calls]<UL><LI><a href="#[f4]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Send_Id
@@ -1719,6 +1724,7 @@ Global Symbols
 <LI><a href="#[ef]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead_Wait
 <LI><a href="#[e9]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;Motor_Ahead
 <LI><a href="#[9d]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;HAL_Init
+<LI><a href="#[f0]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;__2printf
 </UL>
 <BR>[Address Reference Count : 1]<UL><LI> entry9a.o(.ARM.Collect$$$$0000000B)
 </UL>

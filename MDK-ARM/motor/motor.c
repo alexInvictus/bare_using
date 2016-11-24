@@ -21,6 +21,7 @@ void Motor_Ahead_Wait(void)
 		    break;
 		case Run:
          ahead_wave();
+		     delay_ms(100);                
          Find_Rfid();
 		    break;
 				
@@ -323,8 +324,8 @@ void Back_Trailing(void)
 void Answer(void)                                  //回复给上位机RFID信息
 {      
 	int i=0;
-	if((Rx_buff_22[4]!=Rx_buff_2[4])&&(Rx_buff_22[5]!=Rx_buff_2[5])&&(Rx_buff_22[6]!=Rx_buff_2[6])&&(Rx_buff_22[7]!=Rx_buff_2[7]))
-		{
+//	if((Rx_buff_22[4]!=Rx_buff_2[4])&&(Rx_buff_22[5]!=Rx_buff_2[5])&&(Rx_buff_22[6]!=Rx_buff_2[6])&&(Rx_buff_22[7]!=Rx_buff_2[7]))
+//		{
 			for(i=0;i<=len;i++)
 		 {
 			Rx_buff_22[i]=Rx_buff_2[i];
@@ -334,7 +335,7 @@ void Answer(void)                                  //回复给上位机RFID信息
 			HAL_UART_Transmit(&huart3,&Rx_buff_22[4],4,1000);
 			HAL_UART_Transmit(&huart3,(u8*)GG,1,1000);
 			Find_Rfid_Match();
-    }	
+//    }	
 }
                                                                                                                                                                
 void Find_Rfid(void)
@@ -458,24 +459,24 @@ void Set_Slowdown(int target)          //从目标速度减速到0
 void ahead_wave(void)
 {
 	int wave=0;
-	    wave=Get_Barrier();
+	      wave=Get_Barrier();
         if(wave_watch==1)
 					{					  
               if(wave==1)
 							{
 							  LED_ON;
 								Ahead_Trailing();
-//								printf("1\n");
+								printf("1\n");
 							}
               else if(wave==0)
 							{							
 			          Ahead_Trailing();
-//								printf("0\n");
+								printf("0\n");
 							}
               else if(wave==2)
               {
 								wave_watch=0;
-//								printf("2\n");
+								printf("2\n");
 							}
 					}
        else{
@@ -484,20 +485,20 @@ void ahead_wave(void)
 							  LED_ON;
 //								Motor_Status=Motor_Acc;
 								wave_watch=1;
-//								printf("3\n");
+								printf("3\n");
 							 }
               else if(wave==0)
 								{							
 //			         Motor_Status=Motor_Acc;
 								wave_watch=1;
-//								printf("4\n");
+								printf("4\n");
 							  }
               else if(wave==2)
                {
 							  Set_Motor(460,460);
 							  LED_ON;
 							  wave_watch=0;
-//								printf("5\n");
+								printf("5\n");
 							 }
 				}			 
 }

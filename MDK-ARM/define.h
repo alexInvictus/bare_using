@@ -86,6 +86,7 @@ int Uart_Store(void);                           //串口转存
 void Uart_Analyse(void);                        //分析轨道 分数组存到相应的二维数组
 void Eeprom_Read(void);                         //读取eeprom里面的车号
 void Send_Id(void);                             //发送id号给中控系统
+void Write_id(void);
 /*电机的操作的相关函数*/
 void Motor_Ahead_Wait(void);                    //前进到取料点模式
 void Motor_Ahead(void);                         //前进模式

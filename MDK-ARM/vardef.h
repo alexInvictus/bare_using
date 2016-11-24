@@ -59,7 +59,7 @@ u8 Rm[3]={'r','m','#'};
 u8 Bm[3]={'b','m','#'};
 u8 Wt[3]={'w','t','#'};
 u8 Id[3]={'0','1','2'};               //预存的ID号
-u8 Read_Id[3]={'0','0','0'};          //保存从EEPROM读到的车的ID号
+u8 Read_Id[3];          //保存从EEPROM读到的车的ID号
 u8 Read_Rfid[4]={'0','0','0','0'};      //保存RFID读到的卡号信息
 u8 Read_cmd[11]={0xaa,0x09,0x20,0x00,0x00,0x00,0x00,0x03,0x00,0x02,0x55};
 u8 Find_cmd[4]={0xaa,0x02,0x10,0x55};
@@ -69,7 +69,6 @@ enum
 {
  Wait_State,                          //等待中控命令
  Read_State,                          //读取eeprom值，并且发送ID给中控
- Push_State,                          //在暂定点，主动发送信息给中控
  Analyse_State,                       //分析道路的状态
  Run_Ahead_State,                     //分析完道路开始循迹的状态
  Run_Wt_State,
@@ -155,7 +154,6 @@ extern enum
 {
  Wait_State,
  Read_State,
- Push_State,
  Analyse_State,
  Run_Ahead_State,
  Run_Wt_State,
