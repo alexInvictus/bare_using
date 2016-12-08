@@ -59,15 +59,32 @@ void Show_Static(void)
 
   delay_ms(500);
   Display(Line1,"AGV");
-  Display(Line2,"智能仓储");
+  Display(Line2,"斐讯通信");
   Display(Line3,"自动化工程部");
   Display(Line4,"电压:");
 }
 
-void Voltage_Test(void)            //电压检测
+void Show_Message(void)            //物料信息以及最后站点显示
 {
-	 int w;
-    Display(Line4,"电压:");
+	int i=0;
+	Display(Line5,"物料：");
+	for(i=0;i<9;i++)
+	{
+	LCD_Write(LCD_DATE,Rx_buff_3[3+i]);
+  delay_ms(3);
+	}
+  Display(Line6,"站点：");
+	for(i=0;i<9;i++)
+	{
+	LCD_Write(LCD_DATE,Rx_buff_3[3+i]);
+  delay_ms(3);
+	}	
+}
+
+void Voltage_Test(void)            //电压检测以及显示
+{
+	  int w;
+    Display(Line7,"电压:");
     Temp=(ADC_Average(uhADCxConvertedValue2,100,6)*830)/1024;
 	  Temp=Temp+200;
     ptr[0]=Temp/10000;             //显示第一个字符

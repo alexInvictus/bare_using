@@ -47,30 +47,7 @@ return ch;
 
 int main(void)
 {
-/* MCU Configuration----------------------------------------------------------*/
-
-  /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
-  HAL_Init();
-
-  /* Configure the system clock */
-  SystemClock_Config();
-  delay_init(180);                                       //微秒级数据的配置
-  /* Initialize all configured peripherals */
-  MX_GPIO_Init();                                        //GPIO的初始化配置
-  MX_DMA_Init();                                         //DMA通道的配置
-  MX_USART2_UART_Init();                                 //串口2的配置  for RFID读写模块
-  MX_USART3_UART_Init();                                 //串口3的配置  for wifi模块
-  MX_TIM13_Init();                                       //定时器13产生左轮PWM波
-  MX_TIM14_Init();                                       //定时器14产生右轮PWM波
-	MX_TIM3_Init();
-  MX_ADC1_Init();                                        //ADC初始化设置
-  IIC_Init_2();                                          //模拟iic for wave初始化
-	IIC_Init();                                            //模拟iic for 24c02初始化
-  /* Initialize interrupts */
-  MX_NVIC_Init();                                        //中断优先级的设置
-	Show_Static();
-	Voltage_Test();
-//	delay_ms(1000);                                         //等待系统稳定
+  system_init();
   while (1)
   {
   switch(Command_State)
@@ -79,11 +56,10 @@ int main(void)
                  Eeprom_Read();			
 		             Send_Id();
                  Command_State=Wait_State;	
-//		               ahead_wave();
-//		               delay_ms(100);
 							 break;	
 	 
 		case Wait_State:                                     //等待命令状态  (所有暂停点的判断case)
+			
 			    if(packflag_3==1)
 					{
 					 if((Rx_buff_3[4]=='f')&&(Rx_buff_3[5]=='w'))
@@ -100,18 +76,33 @@ int main(void)
 					 }
             else if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
 					 {
-						 Command_State=Store_State;
-					 }					 
+						 Command_State=Lcd_State;
+					 }				 
 					   packflag_3=0;
 					   USART_RX_STA_3=0;
-					}
-				
+					 }				
 					     break;
 	  
+		case Lcd_State:
+			         if(packflag_3==1)
+							 {
+							   if((Rx_buff_3[1]=='i')&&(Rx_buff_3[2]=='n'))
+							   {
+								  Show_Message();
+								 }
+								 packflag_3=0;
+					       USART_RX_STA_3=0;
+							 
+		           HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
+					     HAL_UART_Transmit(&huart3,(u8*)Fm,3,1000);          //发送请求返回地图的指令
+		           Command_State=Store_State;	
+							 }
+		           break;
 		case Store_State:                                                        //等待地图信息并分析的状态 换存地图。
                if(Uart_Store()==1)
 								{
-								printf("a");
+							//	printf("a");
+								packflag_3=0;	
 		            Command_State=Analyse_State;
 								}			
 		           break;
@@ -121,12 +112,14 @@ int main(void)
 				{
 					HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        //完成分析后按下按钮，发送指令给中控表示启动任务
 					HAL_UART_Transmit(&huart3,(u8*)Fw,3,1000);
+					HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
 		      Command_State=Wait_State;
 	      }
 				  if(Key_Stop==1)
 				{
 					HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        //完成分析后按下按钮，发送指令给中控表示启动任务
 					HAL_UART_Transmit(&huart3,(u8*)Bk,3,1000);
+					HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
 		      Command_State=Wait_State;
 	      }	
          if((Rx_buff_33[4]=='w')&&(Rx_buff_33[5]=='t'))

@@ -48,7 +48,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				  Rx_buff_2[USART_RX_STA_2&0X3FFF]=aRxBuffer_2[0] ;
 					USART_RX_STA_2++;
 					if(USART_RX_STA_2>(USART_REC_LEN_2-1))
-					{flag_usart_2=0;//接收数据错误,重新开始接收	
+					{
+						flag_usart_2=0;//接收数据错误,重新开始接收	
 						USART_RX_STA_2=0;
 					}
 				}			
@@ -59,6 +60,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				{
 					flag_usart_3=1;
 				  packflag_3=0;
+					USART_RX_STA_3=0;
 				}
 				if(aRxBuffer_3[0]==0x23)      //#包尾packflag表示接收完成
 				{
@@ -72,10 +74,11 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 				  Rx_buff_3[USART_RX_STA_3&0X3FFF]=aRxBuffer_3[0] ;
 					USART_RX_STA_3++;
 					if(USART_RX_STA_3>(USART_REC_LEN_3-1))
-					{flag_usart_3=0;//接收数据错误,重新开始接收	
+					{
+					 flag_usart_3=0;//接收数据错误,重新开始接收	
 				   USART_RX_STA_3=0;
 					}			
-			}
+			  }
 	}
 }
 
@@ -92,9 +95,8 @@ void USART1_IRQHandler(void)
     while (HAL_UART_GetState(&huart1) != HAL_UART_STATE_READY)//等待就绪
 	{
 	 timeout++;////超时处理
-     if(timeout>HAL_MAX_DELAY) break;		
-	}
-     
+     if(timeout>HAL_MAX_DELAY)break;		
+}
 	timeout=0;
 	while(HAL_UART_Receive_IT(&huart1, (u8 *)aRxBuffer_1, RXBUFFERSIZE) != HAL_OK)//一次处理完成之后，重新开启中断并设置RxXferCount为1
 	{
@@ -118,19 +120,28 @@ void USART2_IRQHandler(void)
 	timeout=0;
     while (HAL_UART_GetState(&huart2) != HAL_UART_STATE_READY)//等待就绪
 	{
-	 timeout++;////超时处理
-     if(timeout>HAL_MAX_DELAY) break;		
-	}
-     
+		 timeout++;////超时处理
+     if(timeout>HAL_MAX_DELAY) 		 
+		 break;		 
+}
 	timeout=0;
 	while(HAL_UART_Receive_IT(&huart2, (u8 *)aRxBuffer_2, RXBUFFERSIZE) != HAL_OK)//一次处理完成之后，重新开启中断并设置RxXferCount为1
 	{
 	 timeout++; //超时处理
-	 if(timeout>HAL_MAX_DELAY) break;	
-	}
+	 if(timeout>HAL_MAX_DELAY)
+	 {
+		 HAL_UART_Receive_IT(&huart2, (u8 *)aRxBuffer_2, 1);
+		 break;
+	 }
+}
+//	if()
+//	{
+//	 HAL_UART_Receive(&huart2,(uint8_t *)&value,1,1000);
+//	}
 #if SYSTEM_SUPPORT_OS	 	//使用OS
 	OSIntExit();  											 
 #endif
+	
 } 
 
 void USART3_IRQHandler(void)                	
@@ -160,24 +171,24 @@ void USART3_IRQHandler(void)
 #endif
 } 	
 
-void Uart_test(void)            //串口1测试子函数
-{	
-   	  if(packflag_2==1)            //串口缓存数据标志位
-		{					   
-			len=USART_RX_STA_2&0x3fff;//得到此次接收到的数据长度
-			printf("\r\nthe news is:\r\n");
-			HAL_UART_Transmit(&huart2,(uint8_t*)Rx_buff_2,len,1000);	//发送接收到的数据
-			while(__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC)!=SET);		//等待发送结束
-			printf("\r\n\r\n");//插入换行
-			packflag_2=0;                                              //
-			USART_RX_STA_2=0; 
-		}else
-		{
-			times++;
-			if(times%200==0)printf("please input char \r\n");  
-			delay_ms(10); 
-    }
-}
+//void Uart_test(void)            //串口1测试子函数
+//{	
+//   	  if(packflag_2==1)            //串口缓存数据标志位
+//		{					   
+//			len=USART_RX_STA_2&0x3fff;//得到此次接收到的数据长度
+//			printf("\r\nthe news is:\r\n");
+//			HAL_UART_Transmit(&huart2,(uint8_t*)Rx_buff_2,len,1000);	//发送接收到的数据
+//			while(__HAL_UART_GET_FLAG(&huart2,UART_FLAG_TC)!=SET);		//等待发送结束
+//			printf("\r\n\r\n");//插入换行
+//			packflag_2=0;                                              //
+//			USART_RX_STA_2=0; 
+//		}else
+//		{
+//			times++;
+//			if(times%200==0)printf("please input char \r\n");  
+//			delay_ms(10); 
+//    }
+//}
 
 int Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
 {
@@ -191,12 +202,12 @@ int Uart_Store(void)                 //转存函数用Rx_buff_22来保存完好的地图
 				 {
 					Rx_buff_33[k]=Rx_buff_3[k];
 				 }
-				 packflag_3=0;
-				 USART_RX_STA_3=0;
 				 n=(Rx_buff_33[6]-'0')*10+(Rx_buff_33[7]-'0');
 				 Uart_Analyse();
 				return 1;
      }
+	packflag_3=0;
+	USART_RX_STA_3=0;
  }
  return 0;
 }	

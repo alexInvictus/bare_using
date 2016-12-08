@@ -904,18 +904,18 @@ ARM Macro Assembler    Page 14
               00000000 
               00000000 
 Command Line: --debug --xref --diag_suppress=9931 --cpu=Cortex-M4.fp --apcs=int
-erwork --depend=usart\startup_stm32f429xx.d -ousart\startup_stm32f429xx.o -IC:\
-Users\peng02.li\Desktop\最新程序11-17\MDK-ARM\RTE -ID:\MDK5\ARM\PACK\ARM\CMSIS\
-4.2.0\CMSIS\Include -ID:\MDK5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Device\Include 
---predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 514" --pred
+erwork --depend=.\output\startup_stm32f429xx.d -o.\output\startup_stm32f429xx.o
+ -IC:\Users\peng02.li\Desktop\裸机车载软件最终版\MDK-ARM\RTE -ID:\MDK5\ARM\PACK
+\ARM\CMSIS\4.2.0\CMSIS\Include -ID:\MDK5\ARM\PACK\Keil\STM32F4xx_DFP\1.0.8\Devi
+ce\Include --predefine="__MICROLIB SETA 1" --predefine="__UVISION_VERSION SETA 
 
 
 
 ARM Macro Assembler    Page 15 
 
 
-efine="_RTE_ SETA 1" --predefine="STM32F429_439xx SETA 1" --list=startup_stm32f
-429xx.lst startup_stm32f429xx.s
+514" --predefine="_RTE_ SETA 1" --predefine="STM32F429_439xx SETA 1" --list=sta
+rtup_stm32f429xx.lst startup_stm32f429xx.s
 
 
 

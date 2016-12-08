@@ -6,26 +6,23 @@
 void MX_NVIC_Init(void)
 {
   /* ADC_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(ADC_IRQn, 1, 0);
+  HAL_NVIC_SetPriority(ADC_IRQn, 4, 0);
   HAL_NVIC_EnableIRQ(ADC_IRQn);
-//  /* USART1_IRQn interrupt configuration */
-//  HAL_NVIC_SetPriority(USART1_IRQn, 3, 0);
-//  HAL_NVIC_EnableIRQ(USART1_IRQn);
   /* USART2_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(USART2_IRQn, 4, 0);
+  HAL_NVIC_SetPriority(USART2_IRQn, 1, 0);
   HAL_NVIC_EnableIRQ(USART2_IRQn);
   /* USART3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(USART3_IRQn, 5, 0);
+  HAL_NVIC_SetPriority(USART3_IRQn, 2, 0);
   HAL_NVIC_EnableIRQ(USART3_IRQn);
   /* DMA2_Stream0_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 2, 0);
+  HAL_NVIC_SetPriority(DMA2_Stream0_IRQn, 5, 0);
   HAL_NVIC_EnableIRQ(DMA2_Stream0_IRQn);
 	  /* TIM3_IRQn interrupt configuration */
-  HAL_NVIC_SetPriority(TIM3_IRQn, 6, 0);
+  HAL_NVIC_SetPriority(TIM3_IRQn, 3, 0);
   HAL_NVIC_EnableIRQ(TIM3_IRQn);
 	
 	HAL_TIM_Base_Start_IT(&htim3);
-	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);                                                    //¿ªÆô×óÂÖPWM²¨
+	HAL_TIM_PWM_Start(&htim13, TIM_CHANNEL_1);                                                    //¿ªÆô×óÂÖPWM²¨
 	HAL_TIM_PWM_Start(&htim14, TIM_CHANNEL_1);                                                    //¿ªÆôÓÒÂÖPWM²¨
 	if(HAL_ADC_Start_DMA(&hadc1,(uint32_t*)&uhADCxConvertedValue2,100)!=HAL_OK)Error_Handler();   //¿ªÆôADC¡ª¡ªDMA´«ÊäÍ¨µÀ	
 }

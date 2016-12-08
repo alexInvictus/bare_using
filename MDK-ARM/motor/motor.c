@@ -2,7 +2,7 @@
 #define _C_MOTOR_
 #include "all.h"
 
-void Motor_Ahead_Wait(void)
+ void Motor_Ahead_Wait(void)
 {
   switch(Motor_Status)
 	{
@@ -10,7 +10,7 @@ void Motor_Ahead_Wait(void)
 		   	 HAL_GPIO_WritePin(GPIOC, GPIO_PIN_4, GPIO_PIN_RESET);      //暂定前进
          HAL_GPIO_WritePin(GPIOC, GPIO_PIN_6, GPIO_PIN_RESET);  
 		     Set_Acc(200);
-		     printf("b");
+		 //  printf("b");
 		     Motor_Status=Run;
 		    break;
 		case Motor_Acc:
@@ -21,7 +21,7 @@ void Motor_Ahead_Wait(void)
 		    break;
 		case Run:
          ahead_wave();
-		     delay_ms(100);                
+         delay_ms(100);		
          Find_Rfid();
 		    break;
 				
@@ -32,7 +32,8 @@ void Motor_Ahead_Wait(void)
 		     free_array();
 		     HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
 				 HAL_UART_Transmit(&huart3,(u8*)Wt,3,1000);          //发送请求返回地图的指令
-		     Command_State=Store_State;                 //进入等待接收地图并且存地图的状态
+		    // HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
+		     Command_State=Lcd_State;                 //进入等待接收地图并且存地图的状态
 		     Motor_Status=Setup;
 		     break;
 		
@@ -83,7 +84,8 @@ void Motor_Ahead(void)                                    //向前循迹
 		         free_array();
 		         HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
 					   HAL_UART_Transmit(&huart3,(u8*)Bm,3,1000);          //发送请求返回地图的指令
-						 Command_State=Store_State;
+		       //  HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
+						 Command_State=Lcd_State;
 						 Motor_Status=Setup;
 		    break;
 				
@@ -134,7 +136,8 @@ void Motor_Back(void)                                           //返回的循迹函数
 		          free_array();
 		          HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
 					    HAL_UART_Transmit(&huart3,(u8*)Rm,3,1000);          //发送请求入库地图的指令
-						  Command_State=Store_State;
+		      //    HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
+						  Command_State=Lcd_State;
 						  Motor_Status=Setup;
 		    break;			
 		default:
@@ -192,7 +195,8 @@ void Motor_Ruku(void)                                           //入库的循迹函数
 		          free_array();
 		          HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
 				      HAL_UART_Transmit(&huart3,(u8*)Wt,3,1000);          //发送请求返回地图的指令
-						  Command_State=Store_State;         //达到起始点，进入缓存地图的状态。
+		       //   HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
+						  Command_State=Lcd_State;         //达到起始点，进入缓存地图的状态。
 						  Motor_Status=Setup;
 		    break;
 		default:
@@ -324,57 +328,65 @@ void Back_Trailing(void)
 void Answer(void)                                  //回复给上位机RFID信息
 {      
 	int i=0;
-//	if((Rx_buff_22[4]!=Rx_buff_2[4])&&(Rx_buff_22[5]!=Rx_buff_2[5])&&(Rx_buff_22[6]!=Rx_buff_2[6])&&(Rx_buff_22[7]!=Rx_buff_2[7]))
+	u16 length=0;
+	length=USART_RX_STA_2&0x3FFF;
+//	if((Rx_buff_22[4]!=Rx_buff_2[4])||(Rx_buff_22[5]!=Rx_buff_2[5])||(Rx_buff_22[6]!=Rx_buff_2[6])||(Rx_buff_22[7]!=Rx_buff_2[7]))
 //		{
-			for(i=0;i<=len;i++)
+			for(i=0;i<=length;i++)
 		 {
 			Rx_buff_22[i]=Rx_buff_2[i];
 		 }
-			USART_RX_STA_2=0;	
 			HAL_UART_Transmit(&huart3,(u8*)Loc,4,1000);   //上报位置
 			HAL_UART_Transmit(&huart3,&Rx_buff_22[4],4,1000);
 			HAL_UART_Transmit(&huart3,(u8*)GG,1,1000);
+		 // HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
 			Find_Rfid_Match();
-//    }	
+//    }		
 }
                                                                                                                                                                
 void Find_Rfid(void)
-{
-		if(data_rec_flag==1)
-			{
-				HAL_UART_Transmit(&huart2,(u8*)Find_cmd,4,1000);
+{ 
+		if(data_rec_flag>800)
+			{			
+			  HAL_UART_Transmit(&huart2,(u8*)Find_cmd,4,1000);
+				HAL_UART_Receive_IT(&huart2, (u8 *)aRxBuffer_2, 1);
 				data_rec_flag=0;
+			//	printf("rfid trans Find cmd ok!\n");                                          //测试用的log文件
 			}
 			
 			if(packflag_2==1)
 					{
 					  if((Rx_buff_2[1]==0x03)&&(Rx_buff_2[2]==0x10)&&(Rx_buff_2[3]==0x01))		
-						{
-							// HAL_UART_Transmit(&huart1,(u8*)Rx_buff_2,4,1000);							
+						{	
+							//	printf("rfid get respons\n");				                                  //测试用的log文件 			
 						}
 						else if((Rx_buff_2[1]==0x03)&&(Rx_buff_2[2]==0x12)&&(Rx_buff_2[3]==0x00))	  //停止成功
 						{
-						 //HAL_UART_Transmit(&huart1,(u8*)Rx_buff_2,4,1000);
 						   HAL_UART_Transmit(&huart2,(u8*)Read_cmd,11,1000);
+							HAL_UART_Receive_IT(&huart2, (u8 *)aRxBuffer_2, 1);
+							//printf("rfid trans read cmd ok\n");                                     //测试用的log文件 
 						}
 						else if(Rx_buff_2[1]==0x15)									                                //读成功
-						{
-							//HAL_UART_Transmit(&huart1,&Rx_buff_2[4],4,1000);					
+						{					
 							Answer();
-							data_rec_flag=1;
+						//	printf("rfid get data ok\n");                                           //测试用的log文件 
 						}
 						else if((Rx_buff_2[1]==0x03)&&(Rx_buff_2[2]==0x20)&&(Rx_buff_2[3]==0x80))		//读失败
 						{
-							data_rec_flag=1;
+						//	printf("rfid read failed\n");                                           //测试用的log文件 
 						}
 						else																				//
 						{
 							//HAL_UART_Transmit(&huart1,(u8*)Rx_buff_2,11,1000);
 								HAL_UART_Transmit(&huart2,(u8*)Stop_cmd,4,1000);
+							  HAL_UART_Receive_IT(&huart2, (u8 *)aRxBuffer_2, 1);
+							//	printf("rfid trans stop cmd ok\n");                                  //测试用的log文件
 						}							
 						packflag_2=0;
+						USART_RX_STA_2=0;
 					}			
 }
+
 
 void Find_Rfid_Match(void)
 {
@@ -459,7 +471,7 @@ void Set_Slowdown(int target)          //从目标速度减速到0
 void ahead_wave(void)
 {
 	int wave=0;
-	      wave=Get_Barrier();
+	      wave=Get_Barrier(0xe8,0);
         if(wave_watch==1)
 					{					  
               if(wave==1)
@@ -506,7 +518,7 @@ void ahead_wave(void)
 void back_wave(void)
 {
 	int wave=0;
-	    wave=Get_Barrier();
+	    wave=Get_Barrier(0xd0,1);
         if(wave_watch==1){
               if(wave==1)
 							{

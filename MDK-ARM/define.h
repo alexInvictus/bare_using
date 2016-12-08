@@ -38,10 +38,12 @@
 //                 128*64的显示屏的行首地址
 //=====================================================
 #define Line1   0x83
-#define Line5   0x83
 #define Line2   0x92
 #define Line3   0x89
-#define Line4   0x98
+#define Line4   0x99
+#define Line5   0x90
+#define Line6   0x88
+#define Line7   0x98
 //=====================================================
 //                 显示屏操作的4个口
 //=====================================================
@@ -62,6 +64,10 @@
 #define Turn_time   6500         //6500毫秒
 #define TEST_TIM    65000        //65000次检测到就停止
 //=====================================================
+//                 motor
+//=====================================================
+#define ULTRA_NUM 2
+//=====================================================
 //                 LED的操作
 //=====================================================
 #define LED_ON  HAL_GPIO_WritePin(GPIOA,GPIO_PIN_13,GPIO_PIN_SET) 			  //开启LED灯
@@ -70,6 +76,7 @@
 //                 函数声明
 //=====================================================
 void Error_Handler(void);
+void system_init(void);
 void MX_GPIO_Init(void);                        //gpio口初始化配置 
 void MX_TIM13_Init(void);                       //定时器13初始化配置产生PWM波
 void MX_TIM14_Init(void);                       //定时器14初始化配置产生PWM波
@@ -109,7 +116,8 @@ void LCD_init(void);
 void Display(u8 addr,u8 *hz);
 void LCD_Write(u32 cmd,u8 ddata);
 void Show_Static(void);
-void Voltage_Test(void); 
+void Voltage_Test(void);
+void Show_Message(void);
 uint16_t ADC_Average(uint16_t *buff,uint16_t num,uint16_t threshold);    //ADC采集滤波函数
 
 #endif
