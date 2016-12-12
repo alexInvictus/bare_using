@@ -53,9 +53,9 @@ int main(void)
   switch(Command_State)
 	{
 		case Read_State: 			//读取状态  该模式下读取eeprom里面的小车ID号(只执行一次)		
-                 Eeprom_Read();			
-		             Send_Id();
-                 Command_State=Wait_State;	
+				           Eeprom_Read();			
+		                   Send_Id();
+                           Command_State=Wait_State;	
 							 break;	
 	 
 		case Wait_State:                                     //等待命令状态  (所有暂停点的判断case)
@@ -74,36 +74,22 @@ int main(void)
 					 {
 						 Command_State=Run_Ruku_State;               //起始位置收到rk前进模式
 					 }
-            else if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
+                      else if((Rx_buff_3[4]=='o')&&(Rx_buff_3[5]=='k')) 
 					 {
-						 Command_State=Lcd_State;
+						 Command_State=Store_State;
 					 }				 
 					   packflag_3=0;
 					   USART_RX_STA_3=0;
 					 }				
 					     break;
 	  
-		case Lcd_State:
-			         if(packflag_3==1)
-							 {
-							   if((Rx_buff_3[1]=='i')&&(Rx_buff_3[2]=='n'))
-							   {
-								  Show_Message();
-								 }
-								 packflag_3=0;
-					       USART_RX_STA_3=0;
-							 
-		           HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        
-					     HAL_UART_Transmit(&huart3,(u8*)Fm,3,1000);          //发送请求返回地图的指令
-		           Command_State=Store_State;	
-							 }
-		           break;
 		case Store_State:                                                        //等待地图信息并分析的状态 换存地图。
-               if(Uart_Store()==1)
+                                if(Uart_Store()==1)
 								{
 							//	printf("a");
-								packflag_3=0;	
-		            Command_State=Analyse_State;
+								packflag_3=0;
+                                USART_RX_STA_3=0;									
+		                        Command_State=Analyse_State;
 								}			
 		           break;
 		
@@ -113,16 +99,16 @@ int main(void)
 					HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        //完成分析后按下按钮，发送指令给中控表示启动任务
 					HAL_UART_Transmit(&huart3,(u8*)Fw,3,1000);
 					HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
-		      Command_State=Wait_State;
-	      }
+		            Command_State=Wait_State;
+	            }
 				  if(Key_Stop==1)
 				{
 					HAL_UART_Transmit(&huart3,(u8*)Tsk,4,1000);                        //完成分析后按下按钮，发送指令给中控表示启动任务
 					HAL_UART_Transmit(&huart3,(u8*)Bk,3,1000);
 					HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
-		      Command_State=Wait_State;
-	      }	
-         if((Rx_buff_33[4]=='w')&&(Rx_buff_33[5]=='t'))
+		            Command_State=Wait_State;
+	            }	
+                 if((Rx_buff_33[4]=='w')&&(Rx_buff_33[5]=='t'))
 					{
 						 Command_State=Run_Wt_State;                                     //直接判断是否去取料点。收到去取料点地图去取料点
 					}
@@ -150,8 +136,8 @@ int main(void)
 		
 		case Stop_State:
 			
-					 Stop();
-					 Command_State=Wait_State; 
+					    Stop();
+					    Command_State=Wait_State; 
 		           break;
 		
 		case Run_Ruku_State:

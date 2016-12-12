@@ -433,11 +433,6 @@
               <FileType>1</FileType>
               <FilePath>.\usart\usart.c</FilePath>
             </File>
-            <File>
-              <FileName>timer3.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\init\timer3.c</FilePath>
-            </File>
           </Files>
         </Group>
         <Group>
@@ -462,6 +457,11 @@
               <FileName>uart_init.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\init\uart_init.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer3.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\init\timer3.c</FilePath>
             </File>
             <File>
               <FileName>pwm.c</FileName>
@@ -637,6 +637,11 @@
           <GroupName>Application/User</GroupName>
           <Files>
             <File>
+              <FileName>main.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>../Src/main.c</FilePath>
+            </File>
+            <File>
               <FileName>stm32f4xx_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_it.c</FilePath>
@@ -645,11 +650,6 @@
               <FileName>stm32f4xx_hal_msp.c</FileName>
               <FileType>1</FileType>
               <FilePath>../Src/stm32f4xx_hal_msp.c</FilePath>
-            </File>
-            <File>
-              <FileName>main.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>../Src/main.c</FilePath>
             </File>
           </Files>
         </Group>

@@ -164,8 +164,12 @@ void USART3_IRQHandler(void)
 	while(HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, RXBUFFERSIZE) != HAL_OK)//一次处理完成之后，重新开启中断并设置RxXferCount为1
 	{
 	 timeout++; //超时处理
-	 if(timeout>HAL_MAX_DELAY) break;	
-	}
+	 if(timeout>HAL_MAX_DELAY) 
+	 {
+		 HAL_UART_Receive_IT(&huart3, (u8 *)aRxBuffer_3, 1);
+		 break;	
+	 }
+}
 #if SYSTEM_SUPPORT_OS	 	//使用OS
 	OSIntExit();  											 
 #endif
